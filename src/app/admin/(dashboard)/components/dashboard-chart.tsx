@@ -39,7 +39,7 @@ export function DashboardChart() {
               borderRadius: "var(--radius)",
             }}
           />
-          <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="total" fill="green" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { UserCog } from "lucide-react"
+import { Edit, Trash, UserCog } from "lucide-react"
 import Link from "next/link"
 
 export interface User {
@@ -27,7 +27,7 @@ interface Users {
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Role</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="text-left">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -38,24 +38,17 @@ interface Users {
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      {/* <div
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                          user.status === "Active"
-                            ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300"
-                            : "bg-yellow-50 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-300"
-                        }`}
-                      >
-                        {user.status}
-                      </div> */}
                       {user.role.name}
                     </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/users/${user.id}`}>
-                          <UserCog suppressHydrationWarning className="h-4 w-4" />
-                          <span className="sr-only">Edit user</span>
-                        </Link>
+                    <TableCell >
+                        <div className="flex gap-2">
+                      <Button className="bg-blue-500" >
+                        <Edit size={25} suppressHydrationWarning className="h-4 w-4" />
                       </Button>
+                       <Button className="bg-red-600">
+                        <Trash size={25} suppressHydrationWarning className="h-4 w-4" />
+                      </Button>                                        
+                        </div>
                     </TableCell>
                   </TableRow>
                 ))}

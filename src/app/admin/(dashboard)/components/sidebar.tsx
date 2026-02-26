@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSidebar } from "./sidebar-provider"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Users, Wallet, BarChart3, Settings, HelpCircle, LogOut, Menu } from "lucide-react"
+import { LayoutDashboard, Users, Wallet, BarChart3, Settings, HelpCircle, LogOut, Menu, Store } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { logoutAction } from "@/app/(auth)/_actions/logoutAction"
 
@@ -118,9 +118,10 @@ export function Sidebar({ totalUsers }: { totalUsers: number }) {
 
 const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { name: "Users", href: "/admin/users", icon: Users, badge: "" },
+  { name: "Usuários", href: "/admin/users", icon: Users, badge: "" },
+  { name: "Mercearias", href: "/admin/groceries", icon: Store, badge: "" },
   { name: "Transactions", href: "/admin/transactions", icon: Wallet },
-  { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  { name: "Estatísticas", href: "/admin/analytics", icon: BarChart3 },
 ]
 
 const footerItems = [

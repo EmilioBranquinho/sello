@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Search, UserCog } from "lucide-react"
+import { File, Search, UserCog } from "lucide-react"
 import { CreateUserDialog } from "./create-user-dialog"
 import { User, UsersTable } from "./users-table"
 import { getUsers } from "../_actions/GetusersAction"
@@ -29,14 +29,11 @@ export default async function UsersPage() {
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex items-center gap-2 w-full max-w-sm">
               <Search className="h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search users..." className="h-9" />
+              <Input placeholder="Pesquisar usuários..." className="h-9" />
             </div>
             <div className="flex items-center gap-2 ml-auto">
-              <Button variant="outline" size="sm">
-                Export
-              </Button>
-              <Button variant="outline" size="sm">
-                Filter
+              <Button className="bg-red-500 text-white hover:text-black cursor-pointer" variant="outline" size="sm">
+                Exportar em PDF <File/>
               </Button>
             </div>
           </div>

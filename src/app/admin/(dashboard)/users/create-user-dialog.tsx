@@ -60,7 +60,7 @@ export function CreateUserDialog({ roles }: Role) {
       <DialogTrigger asChild>
         <Button>
           <UserPlus className="mr-2 h-4 w-4" />
-          Add User
+          Criar usuário
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[525px]">
