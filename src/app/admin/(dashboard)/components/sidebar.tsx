@@ -8,7 +8,7 @@ import { LayoutDashboard, Users, Wallet, BarChart3, Settings, HelpCircle, LogOut
 import { Button } from "@/components/ui/button"
 import { logoutAction } from "@/app/(auth)/_actions/logoutAction"
 
-export function Sidebar() {
+export function Sidebar({ totalUsers }: { totalUsers: number }) {
   const pathname = usePathname()
   const { isOpen, toggle } = useSidebar()
 
@@ -49,7 +49,7 @@ export function Sidebar() {
                   <span>{item.name}</span>
                   {item.badge && (
                     <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[0.625rem] font-medium text-primary-foreground">
-                      {item.badge}
+                      {item.name === "Users" ? totalUsers : item.badge}
                     </span>
                   )}
                 </Link>
@@ -118,7 +118,7 @@ export function Sidebar() {
 
 const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { name: "Users", href: "/admin/users", icon: Users, badge: "8" },
+  { name: "Users", href: "/admin/users", icon: Users, badge: "" },
   { name: "Transactions", href: "/admin/transactions", icon: Wallet },
   { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
 ]
@@ -126,13 +126,13 @@ const navItems = [
 const footerItems = [
   {
     name: "Settings",
-    href: "/settings",
+    href: "/admin/settings",
     icon: Settings,
     subItems: [
-      { name: "Profile", href: "/settings/profile", description: "Update your details" },
-      { name: "Security", href: "/settings/security", description: "Manage your password" },
-      { name: "Communication", href: "/settings/communication", description: "Email and phone" },
-      { name: "Permissions", href: "/settings/permissions", description: "Access control" },
+      { name: "Profile", href: "/admin/settings/profile", description: "Update your details" },
+      { name: "Security", href: "/admin/settings/security", description: "Manage your password" },
+      { name: "Communication", href: "/admin/settings/communication", description: "Email and phone" },
+      { name: "Permissions", href: "/admin/settings/permissions", description: "Access control" },
     ],
   },
   // { name: "Help", href: "/help", icon: HelpCircle, description: "Get support" },

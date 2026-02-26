@@ -28,7 +28,7 @@ export function DashboardChart() {
             fontSize={12}
             tickLine={false}
             axisLine={false}
-            tickFormatter={(value) => `R${value}`}
+            tickFormatter={(value) => `${value} MZN`}
           />
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <Tooltip

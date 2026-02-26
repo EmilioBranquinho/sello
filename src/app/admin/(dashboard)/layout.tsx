@@ -4,6 +4,7 @@ import { Header } from "./components/header"
 import { SidebarProvider } from "./components/sidebar-provider"
 import { auth } from "../../../../auth"
 import { redirect } from "next/navigation"
+import { getUsers } from "./_actions/GetusersAction"
 
 export default async function DashboardLayout({
   children,
@@ -21,10 +22,14 @@ export default async function DashboardLayout({
     redirect("/");
   }
 
+  const users = await getUsers();
+
+  const totalUsers: number = users.length;  
+
   return (
     <SidebarProvider>
       <div className="min-h-screen bg-background">
-        <Sidebar />
+        <Sidebar totalUsers={totalUsers} />
         <div className="lg:pl-72">
           <Header name={session.user?.name || "User"} />
           <main className="p-4 md:p-6 lg:p-8">{children}</main>

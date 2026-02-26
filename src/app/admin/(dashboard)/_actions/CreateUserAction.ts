@@ -7,7 +7,8 @@ import z from "zod";
 const CreateUserSchema = z.object({
   email: z.string({ message: "Email é obrigatório" }).trim().min(1, "Email é obrigatório").email("Email inválido"),
   name: z.string({ message: "O nome é obrigatório" }).min(3, "O nome precisa conter no mínimo 3 caracteres").max(50, "O nome pode conter no máximo 50 caracteres"),
-  password: z.string({ message: "Senha é obrigatória" }).min(4, "A senha deve ter no mínimo 4 caracteres")
+  password: z.string({ message: "Senha é obrigatória" }).min(4, "A senha deve ter no mínimo 4 caracteres"),
+  role: z.string()
 });
 
 
@@ -19,6 +20,7 @@ export async function CreateUserAction(_prevState: any, formData: FormData) {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
         password: formData.get('password') as string,
+        role: formData.get('role') as string,
     }
 
     const parsed = CreateUserSchema.safeParse(data)
@@ -56,11 +58,11 @@ export async function CreateUserAction(_prevState: any, formData: FormData) {
         name: parsed.data.name,
         email: parsed.data.email,
         password: hashedPassword,
-        role: {
-            connect: {
-                name: 'STAFF'
-            }
-        },
+        roleId: parsed.data.role //{
+        //     connect: {
+        //         name: 'STAFF'
+        //     }
+        // },
       },
       include: {
         role: true
@@ -75,6 +77,10 @@ export async function CreateUserAction(_prevState: any, formData: FormData) {
     }
     
   } catch (error) {
-    console.log(error)
+    console.log(error);
+      return {
+      message: "Erro ao criar usuário, tente novamente mais tarde",
+      success: false
+    }
   }
 }

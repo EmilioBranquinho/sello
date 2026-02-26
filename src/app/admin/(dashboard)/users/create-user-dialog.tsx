@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useActionState, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,26 +10,32 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
+} from "../../../../components/ui/dialog"
+import { Input } from "../../../../components/ui/input"
+import { Label } from "../../../../components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UserPlus } from "lucide-react"
 import { CreateUserAction } from "@/app/admin/(dashboard)/_actions/CreateUserAction"
+import { UserRolesProps } from "../_actions/GetUsersRoleAction"
 
 const initialState = {
   success: false,
   message: '',
 }
 
-export function CreateUserDialog() {
+interface Role {
+  roles: UserRolesProps[] | undefined
+}
+
+export function CreateUserDialog({ roles }: Role) {
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const[userRoles, setUserRoles] = useState(roles || undefined);
 
-  const [open, setOpen] = useState(false)
-  const [state, FormAction, isPending] = useActionState(CreateUserAction, null)
+  const [open, setOpen] = useState(false);
+  const [state, FormAction, isPending] = useActionState(CreateUserAction, null);
 
    useEffect(() => {
     if (state?.success) {
@@ -40,6 +44,7 @@ export function CreateUserDialog() {
       setEmail("")
       setPassword("")
     }
+
   }, [state?.success])
 
   return (
@@ -104,21 +109,21 @@ export function CreateUserDialog() {
               required />
             </div>
 
-            {/* <div className="grid grid-cols-2 gap-4">
+             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="idType">Função</Label>
-                <Select required>
+                <Select name="role" required>
                   <SelectTrigger id="idType">
                     <SelectValue placeholder="Selecione a função" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ID">ADMINISTRADOR</SelectItem>
-                    <SelectItem value="Passport">DONO DO NEGÓCIO</SelectItem>
-                    <SelectItem value="Asylum Seeker">VENDEDOR</SelectItem>
+                    {userRoles?.map((role, index)=>(
+                      <SelectItem key={index} value={role.id}>{role.name}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-            </div> */}
+            </div> 
 
           </div>
           <DialogFooter>
