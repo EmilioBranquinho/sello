@@ -1,8 +1,19 @@
 import { GalleryVerticalEnd } from "lucide-react"
 
 import { LoginForm } from "./login-form"
+import { auth } from "../../../../auth"
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+
+  const session = await auth();
+
+  if(session?.user.role?.name === "ADMIN"){
+    return redirect("/admin/dashboard")
+  } else if (session?.user.role?.name === "STAFF"){
+    return redirect("/staff/dashboard")
+  }
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -16,6 +27,9 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
+            {/* <div className=" text-gray-500">
+              dados de sessao: {JSON.stringify(session)}
+            </div> */}
             <LoginForm />
           </div>
         </div>

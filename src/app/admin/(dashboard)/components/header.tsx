@@ -13,7 +13,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function Header() {
+interface HeaderProps {
+  name: string
+}
+
+export function Header({ name }: HeaderProps) {
   const { toggle } = useSidebar()
 
   return (
@@ -50,7 +54,7 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>{name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>

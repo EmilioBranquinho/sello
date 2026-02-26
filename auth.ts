@@ -1,16 +1,22 @@
 import { findUserByCredentials } from "@/app/(auth)/login/_actions/findUserByCredentials"
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { email } from "zod"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  session: {
+    strategy: "jwt",
+  },
+  
   providers: [
     Credentials({
+      
       credentials: {
         email: { name: "email", type: "email" },
         password: { name: "password", type: "password" },
       },
       authorize: async (credentials) => {
+
+      if (!credentials?.email || !credentials?.password) return null
 
       // procura usuario com as credenciais
       const user = await findUserByCredentials({
@@ -22,4 +28,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role; 
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as {
+          id: string;
+          name: string;
+        };
+      }
+      return session;
+    }
+    },
 })

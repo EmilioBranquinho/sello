@@ -1,7 +1,7 @@
 'use server'
 
 import { prisma } from "@/lib/prisma"
-import { compareSync } from "bcrypt";
+import { compare } from "bcrypt";
 
 interface UserCredentialsProps {
     email: string,
@@ -11,7 +11,11 @@ interface UserCredentialsProps {
 interface User {
     id: string,
     name: string,
-    email: string
+    email: string,
+    role: {
+        id: string,
+        name: string
+    }
 }
 
 export async function findUserByCredentials({ email, password }: UserCredentialsProps): Promise<User | null>{
@@ -20,13 +24,16 @@ export async function findUserByCredentials({ email, password }: UserCredentials
         where: {
             email: email
         },
+        include: {
+            role: true
+        }
     })
 
     if(!user){
         return null;
     }
 
-    const passwordMatch = await compareSync(password, user.password)
+    const passwordMatch = await compare(password, user.password)
 
     if(!passwordMatch){
         return null;
@@ -35,8 +42,12 @@ export async function findUserByCredentials({ email, password }: UserCredentials
     const userData: User = {
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: {
+            id: user.role.id,
+            name: user.role.name
+        }
     }
 
-    return user;
+    return userData;
 }
