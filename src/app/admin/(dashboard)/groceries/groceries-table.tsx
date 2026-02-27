@@ -67,7 +67,7 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
               </Badge>
             </TableCell>
             <TableCell className="text-right">
-              <div className="flex items-center justify-end gap-2">
+              <div className="flex items-center justify-end gap-1">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -78,9 +78,14 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 w-8 p-0 hover:bg-red-100"
+                  className="hover:bg-none"
                 >
-                  <Trash2 className="h-4 w-4 text-red-600" />
+            <Badge
+                variant="outline"
+                className={"bg-red-50 text-red-700"}
+              >
+                <span>Desativar</span>
+              </Badge>
                 </Button>
               </div>
             </TableCell>

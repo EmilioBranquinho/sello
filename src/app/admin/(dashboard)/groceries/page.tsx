@@ -69,7 +69,7 @@ export default function GroceriesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Mercearias</h1>
-          <p className="text-muted-foreground">Gerencie todas as suas mercearias</p>
+          <p className="text-muted-foreground">Gerencie todas as mercearias</p>
         </div>
         <CreateGroceryDialog />
       </div>

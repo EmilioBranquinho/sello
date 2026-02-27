@@ -14,20 +14,20 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 interface HeaderProps {
-  name: string
+  name: string | null | undefined
 }
 
-export function Header({ name }: HeaderProps) {
+export function Header() {
   const { toggle } = useSidebar()
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background">
-      <div className="flex h-14 items-center px-4 gap-4">
-        <Button variant="ghost" size="icon" className="lg:hidden" onClick={toggle}>
+      <div className="flex h-14 items-center px-4 gap-4 justify-end">
+        <Button variant="ghost" size="icon" className="lg:hidden flex mr-auto" onClick={toggle}>
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle sidebar</span>
         </Button>
-
+{/* 
         <div className="flex-1">
           <form>
             <div className="relative max-w-md">
@@ -39,12 +39,12 @@ export function Header({ name }: HeaderProps) {
               />
             </div>
           </form>
-        </div>
+        </div> */}
 
-        <Button variant="ghost" size="icon" className="h-8 w-8">
+        {/* <Button variant="ghost" size="icon" className="h-8 w-8">
           <Bell className="h-4 w-4" />
           <span className="sr-only">Notifications</span>
-        </Button>
+        </Button> */}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -54,7 +54,7 @@ export function Header({ name }: HeaderProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{name}</DropdownMenuLabel>
+            <DropdownMenuLabel>Admin</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>

@@ -32,7 +32,7 @@ export default async function UsersPage() {
               <Input placeholder="Pesquisar usuários..." className="h-9" />
             </div>
             <div className="flex items-center gap-2 ml-auto">
-              <Button className="bg-red-500 text-white hover:text-black cursor-pointer" variant="outline" size="sm">
+              <Button className="bg-blue-600 text-white hover:bg-blue-700 cursor-pointer" variant="outline" size="sm">
                 Exportar em PDF <File/>
               </Button>
             </div>

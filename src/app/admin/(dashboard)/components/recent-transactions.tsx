@@ -11,6 +11,7 @@ export function RecentTransactions() {
                   <TableHead>Vendedor</TableHead>
                   <TableHead>Loja</TableHead>
                   <TableHead>Produto</TableHead>
+                  <TableHead>Hora</TableHead>
                   <TableHead>Valor</TableHead>
                 </TableRow>
               </TableHeader>
@@ -20,7 +21,8 @@ export function RecentTransactions() {
                     <TableCell className="font-medium">{transaction.name}</TableCell>
                     <TableCell>{transaction.tenant}</TableCell>
                     <TableCell>{transaction.product}</TableCell>
-                    <TableCell>
+                    <TableCell>{transaction.time}</TableCell>
+                    <TableCell className="text-green-600">
                       {transaction.amount} Mzn
                     </TableCell>
                   </TableRow>

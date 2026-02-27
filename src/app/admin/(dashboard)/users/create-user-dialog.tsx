@@ -17,6 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { UserPlus } from "lucide-react"
 import { CreateUserAction } from "@/app/admin/(dashboard)/_actions/CreateUserAction"
 import { UserRolesProps } from "../_actions/GetUsersRoleAction"
+import { Spinner } from "@/components/ui/spinner"
 
 const initialState = {
   success: false,
@@ -58,8 +59,8 @@ export function CreateUserDialog({ roles }: Role) {
       </div>
     )}
       <DialogTrigger asChild>
-        <Button>
-          <UserPlus className="mr-2 h-4 w-4" />
+        <Button className="bg-green-600 text-white hover:bg-green-700">
+          <UserPlus className="mr-2 h-4 w-4 " />
           Criar usuário
         </Button>
       </DialogTrigger>
@@ -134,7 +135,7 @@ export function CreateUserDialog({ roles }: Role) {
             onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button disabled={isPending} type="submit">{isPending ? "..." : "Criar usuário"}</Button>
+            <Button className="bg-green-600 text-white hover:bg-green-700" disabled={isPending} type="submit">{isPending ? <Spinner color="white"/> : "Criar usuário"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

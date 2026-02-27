@@ -40,12 +40,12 @@ const trendData = [
   { date: '19 Jan', sales: 3490, revenue: 10470, customers: 210 },
 ]
 
-const productCategoryData = [
-  { name: 'Grãos', value: 35, color: '#3b82f6' },
-  { name: 'Laticínios', value: 25, color: '#8b5cf6' },
-  { name: 'Bebidas', value: 20, color: '#ec4899' },
-  { name: 'Congelados', value: 12, color: '#f59e0b' },
-  { name: 'Outros', value: 8, color: '#10b981' },
+const storesData = [
+  { name: 'Mercearia Centro', sales: 8900, receita: 26700 },
+  { name: 'Mercearia Vila', sales: 7650, receita: 22950 },
+  { name: 'Mercearia Praia', sales: 6200, receita: 18600 },
+  { name: 'Mercearia Norte', sales: 5240, receita: 15720 },
+  { name: 'Mercearia Sul', sales: 4100, receita: 12300 },
 ]
 
 export default function AnalyticsPage() {
@@ -185,37 +185,27 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        {/* Product Category Distribution */}
-        <Card>
+        {/* Top Stores */}
+        <Card className='md:col-span-2'>
           <CardHeader>
-            <CardTitle>Distribuição por Categoria</CardTitle>
-            <CardDescription>Percentual de vendas por categoria</CardDescription>
+            <CardTitle>Mercearias que Mais Vendem</CardTitle>
+            <CardDescription>Receita por unidade (Top 5)</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={productCategoryData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, value }) => `${name}: ${value}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {productCategoryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
+              <BarChart data={storesData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip formatter={(value) => `Mzn ${value?.toLocaleString('pt-BR')}`} />
+                <Bar dataKey="receita" fill="#06b6d4" />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
         {/* Top Sellers */}
-        <Card>
+        <Card className='md:col-span-2'>
           <CardHeader>
             <CardTitle>Melhores Vendedores</CardTitle>
             <CardDescription>Top 5 vendedores por volume</CardDescription>

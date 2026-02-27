@@ -5,6 +5,7 @@ import { SidebarProvider } from "./components/sidebar-provider"
 import { auth } from "../../../../auth"
 import { redirect } from "next/navigation"
 import { getUsers } from "./_actions/GetusersAction"
+import { SessionProvider } from "next-auth/react"
 
 export default async function DashboardLayout({
   children,
@@ -22,20 +23,25 @@ export default async function DashboardLayout({
     redirect("/");
   }
 
-  const users = await getUsers();
+  const userName = session.user.name;
+  const roleName = session.user.role.name;
 
-  const totalUsers: number = users.length;  
+  // const users = await getUsers();
+
+  // const totalUsers: number = users.length;  
 
   return (
+    <SessionProvider>
     <SidebarProvider>
       <div className="min-h-screen bg-background">
-        <Sidebar totalUsers={totalUsers} />
+        <Sidebar name={userName} role={roleName} />
         <div className="lg:pl-72">
-          <Header name={session.user?.name || "User"} />
+          <Header />
           <main className="p-4 md:p-6 lg:p-8">{children}</main>
         </div>
       </div>
     </SidebarProvider>
+  </SessionProvider>
   )
 }
 

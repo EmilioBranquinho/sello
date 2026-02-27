@@ -32,11 +32,12 @@ export function DashboardChart() {
           />
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <Tooltip
-            formatter={(value) => [`R${value}`, "Amount"]}
+            formatter={(value) => [`R${value}`, "Receita"]}
             contentStyle={{
               backgroundColor: "hsl(var(--background))",
               borderColor: "hsl(var(--border))",
               borderRadius: "var(--radius)",
+              color: "#FFF"
             }}
           />
           <Bar dataKey="total" fill="green" radius={[4, 4, 0, 0]} />

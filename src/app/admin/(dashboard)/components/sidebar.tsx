@@ -7,13 +7,20 @@ import { cn } from "@/lib/utils"
 import { LayoutDashboard, Users, Wallet, BarChart3, Settings, HelpCircle, LogOut, Menu, Store } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { logoutAction } from "@/app/(auth)/_actions/logoutAction"
+import { SessionProvider, useSession } from "next-auth/react"
 
-export function Sidebar({ totalUsers }: { totalUsers: number }) {
+interface SidebarProps {
+  name: string | undefined | null,
+  role: string | undefined | null
+}
+
+export function Sidebar({ name, role }: SidebarProps) {
   const pathname = usePathname()
   const { isOpen, toggle } = useSidebar()
 
   return (
     <>
+    <SessionProvider>
       <div
         className={cn("fixed inset-0 z-50 bg-background/80 backdrop-blur-sm lg:hidden", isOpen ? "block" : "hidden")}
         onClick={toggle}
@@ -28,7 +35,7 @@ export function Sidebar({ totalUsers }: { totalUsers: number }) {
         )}
       >
         <div className="flex h-14 items-center border-b px-4">
-          <span className="text-lg font-semibold">Emílio Admin</span>
+          <span className="text-lg font-semibold">{name}  <br /> <span className="text-muted-foreground text-xs">{role}</span></span>
           <Button variant="ghost" size="icon" className="ml-auto lg:hidden" onClick={toggle}>
             <Menu className="h-5 w-5" />
           </Button>
@@ -49,7 +56,7 @@ export function Sidebar({ totalUsers }: { totalUsers: number }) {
                   <span>{item.name}</span>
                   {item.badge && (
                     <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[0.625rem] font-medium text-primary-foreground">
-                      {item.name === "Users" ? totalUsers : item.badge}
+                      {item.badge}
                     </span>
                   )}
                 </Link>
@@ -112,6 +119,7 @@ export function Sidebar({ totalUsers }: { totalUsers: number }) {
           </div>
         </div>
       </div>
+      </SessionProvider>
     </>
   )
 }
@@ -120,7 +128,7 @@ const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Usuários", href: "/admin/users", icon: Users, badge: "" },
   { name: "Mercearias", href: "/admin/groceries", icon: Store, badge: "" },
-  { name: "Transactions", href: "/admin/transactions", icon: Wallet },
+  // { name: "Transactions", href: "/admin/transactions", icon: Wallet },
   { name: "Estatísticas", href: "/admin/analytics", icon: BarChart3 },
 ]
 
