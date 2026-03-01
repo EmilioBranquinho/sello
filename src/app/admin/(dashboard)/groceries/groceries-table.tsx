@@ -11,14 +11,27 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Edit, Trash2 } from "lucide-react"
+import { User } from "../users/users-table"
 
-interface Grocery {
+export interface Grocery {
     id: string,
     name: string,
     contact: string,
     status: string,
+    location: string,
     createdAt: Date,
-    updatedAt: Date
+    updatedAt: Date,
+    users: User[],
+    products: {
+        id: string,
+        name: string,
+        price: number,
+        description: string,
+        minimumStock: number,
+        groceryId: string,
+        createdAt: Date,
+        updatedAt: Date
+    }[]
 }
 
 interface GroceriesTableProps {
@@ -27,16 +40,33 @@ interface GroceriesTableProps {
 
 export function GroceriesTable({ groceries }: GroceriesTableProps) {
 
+ const staffByGrocery = groceries.map(grocery => ({
+  groceryName: grocery.name,
+  staffNames: grocery.users
+    .filter(user => user.role?.name === "STAFF")
+    .map(user => user.name)
+}));
+
+ const ownerByGrocery = groceries.map(grocery => ({
+  groceryName: grocery.name,
+  ownerNames: grocery.users
+    .filter(user => user.role?.name === "OWNER")
+    .map(user => user.name)
+}));
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[20%]">Nome</TableHead>
+          <TableHead className="w-[20%]">Localização</TableHead>
+          <TableHead className="w-[20%]">Gerente</TableHead>
+          <TableHead className="w-[20%]">Proprietário</TableHead>
+          <TableHead className="w-[20%]">Produtos cadastrados</TableHead>
           <TableHead className="w-[15%]">Status</TableHead>
           {/* <TableHead className="w-[15%]">Cidade</TableHead>
           <TableHead className="w-[12%]">Telefone</TableHead>
-          <TableHead className="w-[10%]">Produtos</TableHead>
-          <TableHead className="w-[12%]">Status</TableHead> */}
+          <TableHead className="w-[10%]">Produtos</TableHead> */}
           <TableHead className="w-[16%] text-right">Ações</TableHead>
         </TableRow>
       </TableHeader>
@@ -48,6 +78,18 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
                 <p className="font-semibold">{grocery.name}</p>
                 <p className="text-sm text-muted-foreground">{grocery.contact}</p>
               </div>
+            </TableCell>
+            <TableCell className="font-medium">
+              {grocery.location}
+            </TableCell>
+            <TableCell>
+              {staffByGrocery.find(g => g.groceryName === grocery.name)?.staffNames.join(", ") || "-"}
+            </TableCell>
+            <TableCell>
+              {ownerByGrocery.find(g => g.groceryName === grocery.name)?.ownerNames.join(", ") || "-"}
+            </TableCell>
+            <TableCell>
+              {grocery.products.length} 
             </TableCell>
             <TableCell>
               <Badge

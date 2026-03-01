@@ -68,7 +68,8 @@ export async function CreateUserAction(_prevState: any, formData: FormData) {
         groceryId: parsed.data.grocery
       },
       include: {
-        role: true
+        role: true,
+        grocery: true, 
       }
     })
 

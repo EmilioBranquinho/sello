@@ -49,6 +49,8 @@ export function CreateUserDialog({ roles, groceries }: CreateUserDialogProps) {
       setName("")          
       setEmail("")
       setPassword("")
+      setContact("")
+      setGrocery("")
     }
 
   }, [state?.success])
@@ -80,7 +82,7 @@ export function CreateUserDialog({ roles, groceries }: CreateUserDialogProps) {
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">Nome</Label>
+                <Label htmlFor="name">Nome</Label>
                 <Input
                 name="name" 
                 value={name}
@@ -103,7 +105,9 @@ export function CreateUserDialog({ roles, groceries }: CreateUserDialogProps) {
               required />
             </div>
 
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-4">
+
+              <div className="space-y-2">
               <Label htmlFor="password">Palavra-passe</Label>
               <Input 
               name="password" 
@@ -115,7 +119,21 @@ export function CreateUserDialog({ roles, groceries }: CreateUserDialogProps) {
               required />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+              <Label htmlFor="contact">Contacto</Label>
+              <Input
+                id="contact"
+                name="contact"
+                placeholder="Ex: 833517395"
+                value={contact}
+                onChange={(e) => setContact(e.target.value)}
+                required
+              />
+            </div>
+
+            </div> 
+
+             <div className="flex gap-4 ">
               <div className="space-y-2">
                 <Label htmlFor="idType">Mercearia</Label>
                 <Select name="grocery" required>
@@ -129,9 +147,7 @@ export function CreateUserDialog({ roles, groceries }: CreateUserDialogProps) {
                   </SelectContent>
                 </Select>
               </div>
-            </div> 
 
-             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="idType">Função</Label>
                 <Select name="role" required>

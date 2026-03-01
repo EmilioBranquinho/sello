@@ -4,15 +4,22 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Edit, Trash, Trash2, UserCog } from "lucide-react"
 import Link from "next/link"
+import { Grocery } from "../groceries/groceries-table"
 
 export interface User {
     id: string,
     name: string,
     email: string,
+    status: string,
+    contact: string,
+    grocery: {
+        id: string,
+        name: string
+    },
     role: {
         id: string,
         name: string
-    }
+    },
 }
 
 interface Users {
@@ -26,6 +33,8 @@ interface Users {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
+                  <TableHead>Mercearia</TableHead>
+                  <TableHead>Contacto</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
@@ -37,6 +46,12 @@ interface Users {
                       {user.name}
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      {user.grocery.name}
+                    </TableCell>
+                    <TableCell>
+                      {user.contact}
+                    </TableCell>
                     <TableCell>
                       {user.role.name}
                     </TableCell>

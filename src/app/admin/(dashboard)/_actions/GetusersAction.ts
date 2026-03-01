@@ -4,10 +4,16 @@ interface User {
     id: string,
     name: string,
     email: string,
+    status: string,
+    contact: string,
+    grocery: {
+        id: string,
+        name: string
+    },
     role: {
         id: string,
         name: string
-    }
+    },
 }
 
 export async function getUsers() {
@@ -15,7 +21,8 @@ export async function getUsers() {
     const users: User[] = await prisma.users.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
-        role: true
+        role: true,
+        grocery: true
       }
     })
 
