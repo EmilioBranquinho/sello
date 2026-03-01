@@ -6,13 +6,16 @@ import { CreateUserDialog } from "./create-user-dialog"
 import { User, UsersTable } from "./users-table"
 import { getUsers } from "../_actions/GetusersAction"
 import { GetUsersRoles } from "../_actions/GetUsersRoleAction"
+import { getGroceries } from "../_actions/GetGroceriesActions"
 
 export default async function UsersPage() {
 
  const users = await getUsers();
  const roles = await GetUsersRoles();
+ const groceries = await getGroceries();
 
  console.log(roles)
+ console.log(groceries)
 
   return (
     <div className="flex flex-col gap-4">
@@ -21,7 +24,7 @@ export default async function UsersPage() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Usuários</h1>
           <p className="text-muted-foreground">Gerencie os usuários</p>
         </div>
-        <CreateUserDialog roles={roles} />
+        <CreateUserDialog roles={roles} groceries={groceries} />
       </div>
 
       <Card>

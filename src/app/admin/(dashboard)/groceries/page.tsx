@@ -4,65 +4,70 @@ import { Input } from "@/components/ui/input"
 import { File, Plus, Search } from "lucide-react"
 import { CreateGroceryDialog } from "./create-grocery-dialog"
 import { GroceriesTable } from "./groceries-table"
+import { getGroceries } from "../_actions/GetGroceriesActions"
+import { getUsers } from "../_actions/GetusersAction"
 
 export const metadata = {
   title: "Gerenciar Mercearias",
   description: "Sistema de gerenciamento de mercearias",
 }
 
-export default function GroceriesPage() {
-  const groceries = [
-    {
-      id: "1",
-      name: "Mercado Central",
-      address: "Rua Principal, 123",
-      city: "São Paulo",
-      phone: "(11) 3333-1111",
-      manager: "João Silva",
-      status: "Ativo",
-      products: 450,
-    },
-    {
-      id: "2",
-      name: "Mercadinho do Bairro",
-      address: "Av. Secundária, 456",
-      city: "São Paulo",
-      phone: "(11) 3333-2222",
-      manager: "Maria Santos",
-      status: "Ativo",
-      products: 320,
-    },
-    {
-      id: "3",
-      name: "Mercado Popular",
-      address: "Rua das Flores, 789",
-      city: "Rio de Janeiro",
-      phone: "(21) 3333-3333",
-      manager: "Carlos Oliveira",
-      status: "Ativo",
-      products: 380,
-    },
-    {
-      id: "4",
-      name: "Supermercado XX",
-      address: "Av. Principal, 1000",
-      city: "Belo Horizonte",
-      phone: "(31) 3333-4444",
-      manager: "Ana Costa",
-      status: "Inativo",
-      products: 0,
-    },
-    {
-      id: "5",
-      name: "Mercearia Tradicional",
-      address: "Rua Velha, 321",
-      city: "Porto Alegre",
-      phone: "(51) 3333-5555",
-      manager: "Pedro Alves",
-      status: "Ativo",
-      products: 275,
-    },
-  ]
+export default async function GroceriesPage() {
+
+  const groceries = await getGroceries();
+
+  // const groceries = [
+  //   {
+  //     id: "1",
+  //     name: "Mercado Central",
+  //     address: "Rua Principal, 123",
+  //     city: "São Paulo",
+  //     phone: "(11) 3333-1111",
+  //     manager: "João Silva",
+  //     status: "Ativo",
+  //     products: 450,
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "Mercadinho do Bairro",
+  //     address: "Av. Secundária, 456",
+  //     city: "São Paulo",
+  //     phone: "(11) 3333-2222",
+  //     manager: "Maria Santos",
+  //     status: "Ativo",
+  //     products: 320,
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "Mercado Popular",
+  //     address: "Rua das Flores, 789",
+  //     city: "Rio de Janeiro",
+  //     phone: "(21) 3333-3333",
+  //     manager: "Carlos Oliveira",
+  //     status: "Ativo",
+  //     products: 380,
+  //   },
+  //   {
+  //     id: "4",
+  //     name: "Supermercado XX",
+  //     address: "Av. Principal, 1000",
+  //     city: "Belo Horizonte",
+  //     phone: "(31) 3333-4444",
+  //     manager: "Ana Costa",
+  //     status: "Inativo",
+  //     products: 0,
+  //   },
+  //   {
+  //     id: "5",
+  //     name: "Mercearia Tradicional",
+  //     address: "Rua Velha, 321",
+  //     city: "Porto Alegre",
+  //     phone: "(51) 3333-5555",
+  //     manager: "Pedro Alves",
+  //     status: "Ativo",
+  //     products: 275,
+  //   },
+  // ]
 
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6">

@@ -7,24 +7,96 @@ datasource db {
   provider = "postgresql"
 }
 
-model role {
+model Role {
   id    String   @id @default(uuid())
   name  RoleName @unique
-  users users[]
+  users Users[]
 }
 
-model users {
+model Users {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String
   password  String
-  createdAt DateTime @default(now())
+  status    UserStatus 
+  contact   String
+  groceryId String
   roleId    String
-  role      role     @relation(fields: [roleId], references: [id])
+
+  role      Role     @relation(fields: [roleId], references: [id])
+  grocery   Grocery  @relation(fields: [groceryId], references: [id])
+  sales     Sales[]
+
+  createdAt DateTime @default(now())
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
 }
 
 enum RoleName {
   ADMIN
   STAFF
   OWNER
+}
+
+
+model Grocery {
+  id        String   @id @default(uuid())
+  name      String @unique
+  location  String
+  contact   String
+  status    GroceryStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users     Users[]
+  products  Product[]
+  sales     Sales[]
+}
+
+enum GroceryStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products  Product[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  description String
+  minimumStock Int
+
+  groceryId String
+  grocery   Grocery @relation(fields: [groceryId], references: [id])
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sales {
+  id        String @id @default(uuid())
+  groceryId String
+  userId    String
+  total     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  grocery Grocery @relation(fields: [groceryId], references: [id])
+  user Users @relation(fields: [userId], references: [id])
 }

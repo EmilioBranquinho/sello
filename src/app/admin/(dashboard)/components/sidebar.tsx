@@ -10,8 +10,8 @@ import { logoutAction } from "@/app/(auth)/_actions/logoutAction"
 import { SessionProvider, useSession } from "next-auth/react"
 
 interface SidebarProps {
-  name: string | undefined | null,
-  role: string | undefined | null
+  name?: string | undefined | null,
+  role?: string | undefined | null
 }
 
 export function Sidebar({ name, role }: SidebarProps) {

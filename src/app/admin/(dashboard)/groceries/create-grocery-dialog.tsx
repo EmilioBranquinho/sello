@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -12,24 +12,17 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { CreateGroceryAction } from "../_actions/CreateGroceryAction" 
 import { Plus } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
 
 export function CreateGroceryDialog() {
+
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
-    address: "",
-    city: "",
-    phone: "",
-    manager: "",
-    status: "Ativo",
+    location: "",
+    contact: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,19 +33,19 @@ export function CreateGroceryDialog() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Nova mercearia:", formData)
-    setOpen(false)
-    setFormData({
-      name: "",
-      address: "",
-      city: "",
-      phone: "",
-      manager: "",
-      status: "Ativo",
-    })
-  }
+  const [state, FormAction, isPending] = useActionState(CreateGroceryAction, null);
+
+   useEffect(() => {
+    if (state?.success) {
+      setFormData({
+        name: "",
+        location: "",
+        contact: "",    
+      }) 
+      setOpen(false)      
+    }
+
+  }, [state?.success])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -69,14 +62,14 @@ export function CreateGroceryDialog() {
             Preencha os dados abaixo para criar uma nova mercearia no sistema
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form action={FormAction} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="name">Nome da Mercearia *</Label>
+              <Label htmlFor="name">Nome da Mercearia</Label>
               <Input
                 id="name"
                 name="name"
-                placeholder="Ex: Mercado Central"
+                placeholder="Ex: Mercearia do João"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -84,54 +77,47 @@ export function CreateGroceryDialog() {
             </div>
 
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="address">Endereço *</Label>
+              <Label htmlFor="location">Localização</Label>
               <Input
-                id="address"
-                name="address"
-                placeholder="Ex: Rua Principal, 123"
-                value={formData.address}
+                id="location"
+                name="location"
+                placeholder="Ex: Matadouro"
+                value={formData.location}
                 onChange={handleChange}
                 required
               />
             </div>
+
 
             <div className="space-y-2">
-              <Label htmlFor="city">Cidade *</Label>
+              <Label htmlFor="contact">Contacto</Label>
               <Input
-                id="city"
-                name="city"
-                placeholder="Ex: São Paulo"
-                value={formData.city}
+                id="contact"
+                name="contact"
+                placeholder="Ex: 833517395"
+                value={formData.contact}
                 onChange={handleChange}
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone">Telefone *</Label>
-              <Input
-                id="phone"
-                name="phone"
-                placeholder="Ex: (11) 3333-1111"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            {/* <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="idType">Gerente</Label>
+                <Select name="user" required>
+                  <SelectTrigger id="idType">
+                    <SelectValue placeholder="Selecione o gerente" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableUsers?.map((user, index)=>(
+                      <SelectItem key={index} value={user.id}>{user.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>  */}
 
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="manager">Gerente Responsável *</Label>
-              <Input
-                id="manager"
-                name="manager"
-                placeholder="Ex: João Silva"
-                value={formData.manager}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="col-span-2 space-y-2">
+            {/* <div className="col-span-2 space-y-2">
               <Label htmlFor="status">Status</Label>
               <Select value={formData.status} onValueChange={(value) => setFormData((prev) => ({ ...prev, status: value }))}>
                 <SelectTrigger id="status">
@@ -142,7 +128,7 @@ export function CreateGroceryDialog() {
                   <SelectItem value="Inativo">Inativo</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
@@ -153,8 +139,11 @@ export function CreateGroceryDialog() {
             >
               Cancelar
             </Button>
-            <Button type="submit" className="bg-green-600 hover:bg-green-700">
-              Criar Mercearia
+            <Button 
+            type="submit" 
+            disabled={isPending}
+            className="bg-green-600 hover:bg-green-700">
+              {isPending ? <Spinner/> : "Cadastrar Mercearia"}
             </Button>
           </div>
         </form>

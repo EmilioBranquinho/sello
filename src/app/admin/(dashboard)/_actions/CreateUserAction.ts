@@ -8,7 +8,9 @@ const CreateUserSchema = z.object({
   email: z.string({ message: "Email é obrigatório" }).trim().min(1, "Email é obrigatório").email("Email inválido"),
   name: z.string({ message: "O nome é obrigatório" }).min(3, "O nome precisa conter no mínimo 3 caracteres").max(50, "O nome pode conter no máximo 50 caracteres"),
   password: z.string({ message: "Senha é obrigatória" }).min(4, "A senha deve ter no mínimo 4 caracteres"),
-  role: z.string()
+  contact: z.string({ message: "Contato é obrigatório" }).min(1, "Contato é obrigatório"),
+  grocery: z.string({ message: "A mercearia é obrigatória" }).min(2, "O nome da mercearia deve ter no mínimo 2 caracteres"),
+  role: z.string({ message: "Cargo é obrigatório" }).min(1, "Cargo é obrigatório")
 });
 
 
@@ -20,6 +22,8 @@ export async function CreateUserAction(_prevState: any, formData: FormData) {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
         password: formData.get('password') as string,
+        contact: formData.get('contact') as string,
+        grocery: formData.get('grocery') as string,
         role: formData.get('role') as string,
     }
 
@@ -58,11 +62,10 @@ export async function CreateUserAction(_prevState: any, formData: FormData) {
         name: parsed.data.name,
         email: parsed.data.email,
         password: hashedPassword,
-        roleId: parsed.data.role //{
-        //     connect: {
-        //         name: 'STAFF'
-        //     }
-        // },
+        roleId: parsed.data.role ,
+        status: "ACTIVE",
+        contact: parsed.data.contact,
+        groceryId: parsed.data.grocery
       },
       include: {
         role: true

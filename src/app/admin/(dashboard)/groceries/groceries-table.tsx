@@ -12,15 +12,13 @@ import {
 } from "@/components/ui/table"
 import { Edit, Trash2 } from "lucide-react"
 
-export interface Grocery {
-  id: string
-  name: string
-  address: string
-  city: string
-  phone: string
-  manager: string
-  status: "Ativo" | "Inativo"
-  products: number
+interface Grocery {
+    id: string,
+    name: string,
+    contact: string,
+    status: string,
+    createdAt: Date,
+    updatedAt: Date
 }
 
 interface GroceriesTableProps {
@@ -28,16 +26,17 @@ interface GroceriesTableProps {
 }
 
 export function GroceriesTable({ groceries }: GroceriesTableProps) {
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[20%]">Nome</TableHead>
-          <TableHead className="w-[15%]">Gerente</TableHead>
-          <TableHead className="w-[15%]">Cidade</TableHead>
+          <TableHead className="w-[15%]">Status</TableHead>
+          {/* <TableHead className="w-[15%]">Cidade</TableHead>
           <TableHead className="w-[12%]">Telefone</TableHead>
           <TableHead className="w-[10%]">Produtos</TableHead>
-          <TableHead className="w-[12%]">Status</TableHead>
+          <TableHead className="w-[12%]">Status</TableHead> */}
           <TableHead className="w-[16%] text-right">Ações</TableHead>
         </TableRow>
       </TableHeader>
@@ -47,18 +46,14 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
             <TableCell className="font-medium">
               <div>
                 <p className="font-semibold">{grocery.name}</p>
-                <p className="text-sm text-muted-foreground">{grocery.address}</p>
+                <p className="text-sm text-muted-foreground">{grocery.contact}</p>
               </div>
             </TableCell>
-            <TableCell>{grocery.manager}</TableCell>
-            <TableCell>{grocery.city}</TableCell>
-            <TableCell className="text-sm">{grocery.phone}</TableCell>
-            <TableCell className="text-center font-semibold">{grocery.products}</TableCell>
             <TableCell>
               <Badge
                 variant="outline"
                 className={
-                  grocery.status === "Ativo"
+                  grocery.status === "ACTIVE"
                     ? "bg-green-50 text-green-700 border-green-200"
                     : "bg-red-50 text-red-700 border-red-200"
                 }

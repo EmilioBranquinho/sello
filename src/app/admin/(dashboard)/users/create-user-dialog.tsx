@@ -18,22 +18,27 @@ import { UserPlus } from "lucide-react"
 import { CreateUserAction } from "@/app/admin/(dashboard)/_actions/CreateUserAction"
 import { UserRolesProps } from "../_actions/GetUsersRoleAction"
 import { Spinner } from "@/components/ui/spinner"
+import { GroceryProps } from "../_actions/GetGroceriesActions"
 
 const initialState = {
   success: false,
   message: '',
 }
 
-interface Role {
-  roles: UserRolesProps[] | undefined
+interface CreateUserDialogProps {
+  roles: UserRolesProps[] | undefined,
+  groceries: GroceryProps[] | undefined
 }
 
-export function CreateUserDialog({ roles }: Role) {
+export function CreateUserDialog({ roles, groceries }: CreateUserDialogProps) {
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [grocery, setGrocery] = useState("")
+  const [contact, setContact] = useState("")
   const[userRoles, setUserRoles] = useState(roles || undefined);
+  const[availabeGroceries, setAvailableGroceries] = useState(groceries || undefined)
 
   const [open, setOpen] = useState(false);
   const [state, FormAction, isPending] = useActionState(CreateUserAction, null);
@@ -109,6 +114,22 @@ export function CreateUserDialog({ roles }: Role) {
               placeholder="Insira a palavra-passe:" 
               required />
             </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="idType">Mercearia</Label>
+                <Select name="grocery" required>
+                  <SelectTrigger id="idType">
+                    <SelectValue placeholder="Selecione mercearia" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availabeGroceries?.map((grocery, index)=>(
+                      <SelectItem key={index} value={grocery.id}>{grocery.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div> 
 
              <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">

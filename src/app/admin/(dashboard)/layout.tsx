@@ -15,16 +15,16 @@ export default async function DashboardLayout({
 
   const session = await auth();
 
-  if(!session){
-    redirect("/");
-  }
+  // if(!session){
+  //   redirect("/");
+  // }
 
-  if(session.user.role.name !== "ADMIN"){
-    redirect("/");
-  }
+  // if(session.user.role.name !== "ADMIN"){
+  //   redirect("/");
+  // }
 
-  const userName = session.user.name;
-  const roleName = session.user.role.name;
+  // const userName = session.user.name;
+  // const roleName = session.user.role.name;
 
   // const users = await getUsers();
 
@@ -34,7 +34,7 @@ export default async function DashboardLayout({
     <SessionProvider>
     <SidebarProvider>
       <div className="min-h-screen bg-background">
-        <Sidebar name={userName} role={roleName} />
+        <Sidebar  />
         <div className="lg:pl-72">
           <Header />
           <main className="p-4 md:p-6 lg:p-8">{children}</main>
