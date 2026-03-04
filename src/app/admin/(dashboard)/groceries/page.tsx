@@ -5,7 +5,7 @@ import { File, Plus, Search } from "lucide-react"
 import { CreateGroceryDialog } from "./create-grocery-dialog"
 import { GroceriesTable } from "./groceries-table"
 import { getGroceries } from "../_actions/GetGroceriesActions"
-import { getUsers } from "../_actions/GetusersAction"
+import { GroceriesClient } from "./groceries-client"
 
 export const metadata = {
   title: "Gerenciar Mercearias",
@@ -27,7 +27,7 @@ export default async function GroceriesPage() {
       </div>
 
       <Card>
-        <CardHeader className="p-4">
+        {/* <CardHeader className="p-4">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex items-center gap-2 w-full max-w-sm">
               <Search className="h-4 w-4 text-muted-foreground" />
@@ -39,10 +39,10 @@ export default async function GroceriesPage() {
               </Button>
             </div>
           </div>
-        </CardHeader>
+        </CardHeader> */}
         <CardContent className="p-0 overflow-auto">
           <div className="w-full min-w-[640px]">
-            <GroceriesTable groceries={groceries} />
+            <GroceriesClient groceries={groceries} />
           </div>
         </CardContent>
       </Card>

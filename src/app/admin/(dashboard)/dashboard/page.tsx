@@ -5,14 +5,22 @@ import { DashboardChart } from "@/app/admin/(dashboard)/components/dashboard-cha
 import { RecentTransactions } from "@/app/admin/(dashboard)/components/recent-transactions"
 import { DashboardResumeCards } from "./dashboard-resume-cards"
 import { getUsers } from "../_actions/GetusersAction"
+import { getGroceries } from "../_actions/GetGroceriesActions"
+import { GetTodaySalesCount } from "../_actions/GetTodaylSalesCount"
+import { GetTodayRevenue } from "../_actions/GetTodayRevenue"
+import { GetTodaySales } from "../_actions/GetTodaySalesAction"
 
 
 export default async function DashboardPage() {
 
   const users = await getUsers();
+  const groceries = await getGroceries();
+  const todaySalesCount = await GetTodaySalesCount();
+  const todayRevenue = await GetTodayRevenue();
+  const recentSales = await GetTodaySales();
 
   const usersCount = users.length;
-
+  const groceriesCount = groceries.length;
 
   return (
     <div className="flex flex-col gap-4">
@@ -21,7 +29,12 @@ export default async function DashboardPage() {
         <p className="text-muted-foreground">Estatistícas e performance da aplicação📊🚀</p>
       </div>
 
-      <DashboardResumeCards usersCount={usersCount}/>
+      <DashboardResumeCards 
+      usersCount={usersCount} 
+      groceriesCount={groceriesCount} 
+      todaySalesCount={todaySalesCount}
+      todayRevenue={todayRevenue}
+      />
 
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
         <Card className="lg:col-span-4">
@@ -40,7 +53,7 @@ export default async function DashboardPage() {
             <CardDescription>Últimas vendas na plataforma</CardDescription>
           </CardHeader>
           <CardContent>
-            <RecentTransactions />
+            <RecentTransactions recentSales={recentSales} />
           </CardContent>
         </Card>
       </div>

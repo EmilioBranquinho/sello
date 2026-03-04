@@ -2,7 +2,9 @@
 
 import { prisma } from "@/lib/prisma"
 import { hash } from "bcrypt"
+import { revalidatePath } from "next/cache";
 import z from "zod";
+import { GroceryLight } from "@/types/types";
 
 const CreateUserSchema = z.object({
   name: z.string({ message: "O nome é obrigatório" }).min(3, "O nome precisa conter no mínimo 3 caracteres").max(50, "O nome pode conter no máximo 50 caracteres"),
@@ -13,7 +15,7 @@ const CreateUserSchema = z.object({
 
 type CreateUserSchema = z.infer<typeof CreateUserSchema>
 
-export async function CreateGroceryAction(_prevState: any, formData: FormData) {
+export async function CreateGroceryAction(_prevState: any, formData: FormData): Promise<{ success: true; grocery: GroceryLight } | { success: false }>  {
 
     const data = {
         name: formData.get('name') as string,
@@ -25,7 +27,6 @@ export async function CreateGroceryAction(_prevState: any, formData: FormData) {
     
     if (!parsed.success) {
       return {
-        message: parsed.error.issues.map((err) => err.message).join(", "),
         success: false
       }
     }
@@ -38,7 +39,6 @@ export async function CreateGroceryAction(_prevState: any, formData: FormData) {
 
     if(existingGrocery){
       return {
-        message: "O estabelecimento com este nome já existe",
         success: false
       }
     }
@@ -66,15 +66,13 @@ export async function CreateGroceryAction(_prevState: any, formData: FormData) {
 
     console.log('Grocery created:', grocery)
 
-    return {
-      message: "Estabelecimento criado com sucesso",
-      success: true
-    }
+    revalidatePath('/admin/groceries')
+
+    return  { success: true, grocery } as { success: true, grocery: GroceryLight }
     
   } catch (error) {
     console.log(error);
       return {
-      message: "Erro ao criar estabelecimento, tente novamente mais tarde",
       success: false
     }
   }

@@ -6,6 +6,7 @@ import { auth } from "../../../../auth"
 import { redirect } from "next/navigation"
 import { getUsers } from "./_actions/GetusersAction"
 import { SessionProvider } from "next-auth/react"
+import { ClientOnly } from "./components/client-only"
 
 export default async function DashboardLayout({
   children,
@@ -36,7 +37,9 @@ export default async function DashboardLayout({
       <div className="min-h-screen bg-background">
         <Sidebar  />
         <div className="lg:pl-72">
-          <Header />
+          <ClientOnly>
+            <Header />
+          </ClientOnly>    
           <main className="p-4 md:p-6 lg:p-8">{children}</main>
         </div>
       </div>

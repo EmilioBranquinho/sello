@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma"
 import { hash } from "bcrypt"
+import { revalidatePath } from "next/cache";
 import z from "zod";
 
 const CreateUserSchema = z.object({
@@ -73,7 +74,7 @@ export async function CreateUserAction(_prevState: any, formData: FormData) {
       }
     })
 
-    console.log('User created:', user)
+    revalidatePath('/admin/users');
 
     return {
       message: "Usuário criado com sucesso",

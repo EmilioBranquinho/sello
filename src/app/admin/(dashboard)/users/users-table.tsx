@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Edit, Trash, Trash2, UserCog } from "lucide-react"
 import Link from "next/link"
 import { Grocery } from "../groceries/groceries-table"
+import { Badge } from "@/components/ui/badge"
 
 export interface User {
     id: string,
@@ -27,8 +28,10 @@ interface Users {
 }
 
   export function UsersTable({ users }: Users) {
+
+    
     return (
-            <Table>
+            <Table className="mt-5">
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
@@ -36,6 +39,7 @@ interface Users {
                   <TableHead>Mercearia</TableHead>
                   <TableHead>Contacto</TableHead>
                   <TableHead>Role</TableHead>
+                  <TableHead>Status</TableHead>
                   <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
               </TableHeader>
@@ -55,6 +59,17 @@ interface Users {
                     <TableCell>
                       {user.role.name}
                     </TableCell>
+                    <TableCell>
+                    <Badge
+                    className={
+                    user.status === "ACTIVE"
+                    ? "bg-green-50 text-green-700 border-green-200"
+                    : "bg-red-50 text-red-700 border-red-200"
+                    }
+                    >
+                    {user.status === "INACTIVE" ? "INATIVO" : "ATIVO"}
+                    </Badge>
+                    </TableCell>
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-2">
                 <Button
@@ -65,6 +80,7 @@ interface Users {
                   <Edit className="h-4 w-4 text-blue-600" />
                 </Button>
                 <Button
+                  
                   variant="ghost"
                   size="sm"
                   className="h-8 w-8 p-0 hover:bg-red-100"

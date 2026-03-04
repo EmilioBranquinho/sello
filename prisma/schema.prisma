@@ -87,6 +87,8 @@ model Product {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  salesItems SalesItem[]
 }
 
 model Sales {
@@ -99,4 +101,22 @@ model Sales {
 
   grocery Grocery @relation(fields: [groceryId], references: [id])
   user Users @relation(fields: [userId], references: [id])
+
+  items   SalesItem[]
+}
+
+model SalesItem {
+  id        String   @id @default(uuid())
+
+  saleId    String
+  productId String
+
+  quantity  Int
+  unitPrice Float   // preço no momento da venda
+  subtotal  Float   // quantity * unitPrice
+
+  sale      Sales   @relation(fields: [saleId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
 }

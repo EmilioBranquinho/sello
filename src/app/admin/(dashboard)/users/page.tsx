@@ -7,15 +7,13 @@ import { UsersTable } from "./users-table"
 import { getUsers } from "../_actions/GetusersAction"
 import { GetUsersRoles } from "../_actions/GetUsersRoleAction"
 import { getGroceries } from "../_actions/GetGroceriesActions"
+import { UsersClient } from "./users-client"
 
 export default async function UsersPage() {
 
  const users = await getUsers();
  const roles = await GetUsersRoles();
  const groceries = await getGroceries();
-
- console.log(roles)
- console.log(groceries)
 
   return (
     <div className="flex flex-col gap-4">
@@ -28,8 +26,8 @@ export default async function UsersPage() {
       </div>
 
       <Card>
-        <CardHeader className="p-4">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        {/* <CardHeader className="p-4"> */}
+          {/* <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex items-center gap-2 w-full max-w-sm">
               <Search className="h-4 w-4 text-muted-foreground" />
               <Input placeholder="Pesquisar usuários..." className="h-9" />
@@ -39,11 +37,11 @@ export default async function UsersPage() {
                 Exportar em PDF <File/>
               </Button>
             </div>
-          </div>
-        </CardHeader>
+          </div> */}
+        {/* </CardHeader> */}
         <CardContent className="p-0 overflow-auto">
           <div className="w-full min-w-[640px]">
-            <UsersTable users={users}/>
+            <UsersClient users={users} />
           </div>
         </CardContent>
       </Card>

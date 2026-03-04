@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/table"
 import { Edit, Trash2 } from "lucide-react"
 import { User } from "../users/users-table"
+import { DisableGroceryForm } from "./disable-grocery-form"
+import { EnableGroceryForm } from "./enable-grocery-form"
+import { useEffect, useState } from "react"
 
 export interface Grocery {
     id: string,
@@ -40,22 +43,34 @@ interface GroceriesTableProps {
 
 export function GroceriesTable({ groceries }: GroceriesTableProps) {
 
- const staffByGrocery = groceries.map(grocery => ({
-  groceryName: grocery.name,
-  staffNames: grocery.users
-    .filter(user => user.role?.name === "STAFF")
-    .map(user => user.name)
-}));
+const [localGroceries, setLocalGroceries] = useState(groceries || [])
 
- const ownerByGrocery = groceries.map(grocery => ({
-  groceryName: grocery.name,
-  ownerNames: grocery.users
-    .filter(user => user.role?.name === "OWNER")
-    .map(user => user.name)
-}));
+function handleStatusChange(id: string, status: string) {
+  setLocalGroceries(prev =>
+    prev.map(g => g.id === id ? { ...g, status } : g)
+  )
+}
+
+useEffect(() => {
+  setLocalGroceries(groceries)
+}, [groceries])
+
+//  const staffByGrocery = groceries.map(grocery => ({
+//   groceryName: grocery.name,
+//   staffNames: grocery.users
+//     .filter(user => user.role?.name === "STAFF")
+//     .map(user => user.name)
+// }));
+
+//  const ownerByGrocery = groceries.map(grocery => ({
+//   groceryName: grocery.name,
+//   ownerNames: grocery.users
+//     .filter(user => user.role?.name === "OWNER")
+//     .map(user => user.name)
+// }));
 
   return (
-    <Table>
+    <Table className="mt-10">
       <TableHeader>
         <TableRow>
           <TableHead className="w-[20%]">Nome</TableHead>
@@ -64,14 +79,11 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
           <TableHead className="w-[20%]">Proprietário</TableHead>
           <TableHead className="w-[20%]">Produtos cadastrados</TableHead>
           <TableHead className="w-[15%]">Status</TableHead>
-          {/* <TableHead className="w-[15%]">Cidade</TableHead>
-          <TableHead className="w-[12%]">Telefone</TableHead>
-          <TableHead className="w-[10%]">Produtos</TableHead> */}
           <TableHead className="w-[16%] text-right">Ações</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {groceries.map((grocery) => (
+        {localGroceries.map((grocery) => (
           <TableRow key={grocery.id} className="hover:bg-muted/50">
             <TableCell className="font-medium">
               <div>
@@ -83,10 +95,16 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
               {grocery.location}
             </TableCell>
             <TableCell>
-              {staffByGrocery.find(g => g.groceryName === grocery.name)?.staffNames.join(", ") || "-"}
+              {grocery.users
+              .filter(user => user.role?.name === "STAFF")
+              .map(user => user.name)
+              .join(", ") || "-"}
             </TableCell>
             <TableCell>
-              {ownerByGrocery.find(g => g.groceryName === grocery.name)?.ownerNames.join(", ") || "-"}
+              {grocery.users
+              .filter(user => user.role?.name === "OWNER")
+              .map(user => user.name)
+              .join(", ") || "-"}
             </TableCell>
             <TableCell>
               {grocery.products.length} 
@@ -100,7 +118,7 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
                     : "bg-red-50 text-red-700 border-red-200"
                 }
               >
-                {grocery.status}
+                {grocery.status === "ACTIVE" ? "ATIVO" : "INATIVO"}
               </Badge>
             </TableCell>
             <TableCell className="text-right">
@@ -112,18 +130,14 @@ export function GroceriesTable({ groceries }: GroceriesTableProps) {
                 >
                   <Edit className="h-4 w-4 text-blue-600" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hover:bg-none"
-                >
-            <Badge
-                variant="outline"
-                className={"bg-red-50 text-red-700"}
+            <div
               >
-                <span>Desativar</span>
-              </Badge>
-                </Button>
+                {grocery.status === "ACTIVE" ?  (
+                  <DisableGroceryForm  onSuccess={status => handleStatusChange(grocery.id, status)} groceryId={grocery.id} />
+                  ): (
+                    <EnableGroceryForm  onSuccess={status => handleStatusChange(grocery.id, status)} groceryId={grocery.id}/> 
+                  )}
+              </div>
               </div>
             </TableCell>
           </TableRow>

@@ -5,10 +5,13 @@ import { UsersIcon, Store, DollarSign ,WalletIcon, UserPlusIcon, UserXIcon } fro
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../../components/ui/card"
 
 interface DashboardResumeProps {
-    usersCount: number;
+    usersCount: number,
+    groceriesCount: number,
+    todaySalesCount: number,
+    todayRevenue: number
 }
 
-export function DashboardResumeCards({ usersCount }: DashboardResumeProps){
+export function DashboardResumeCards({ usersCount, groceriesCount, todaySalesCount, todayRevenue }: DashboardResumeProps){
     return(
               <Tabs defaultValue="daily" className="space-y-4">
         {/* <div className="flex items-center justify-between">
@@ -27,7 +30,7 @@ export function DashboardResumeCards({ usersCount }: DashboardResumeProps){
                 <Store color="gray" className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">24</div>
+                <div className="text-2xl font-bold">{groceriesCount}</div>
                 {/* <p className="text-xs text-muted-foreground">+12% from yesterday</p> */}
               </CardContent>
             </Card>
@@ -49,7 +52,7 @@ export function DashboardResumeCards({ usersCount }: DashboardResumeProps){
                 <WalletIcon color="purple" className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">103</div>
+                <div className="text-2xl font-bold">{todaySalesCount}</div>
                 {/* <p className="text-xs text-muted-foreground">+18% from yesterday</p> */}
               </CardContent>
             </Card>
@@ -60,7 +63,7 @@ export function DashboardResumeCards({ usersCount }: DashboardResumeProps){
                 <DollarSign color="green" className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">33,435 Mzn</div>
+                <div className="text-2xl font-bold">{todayRevenue} Mzn</div>
                 {/* <p className="text-xs text-muted-foreground">-4% from yesterday</p> */}
               </CardContent>
             </Card>
