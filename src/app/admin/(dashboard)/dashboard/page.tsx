@@ -9,6 +9,7 @@ import { getGroceries } from "../_actions/GetGroceriesActions"
 import { GetTodaySalesCount } from "../_actions/GetTodaylSalesCount"
 import { GetTodayRevenue } from "../_actions/GetTodayRevenue"
 import { GetTodaySales } from "../_actions/GetTodaySalesAction"
+import { GetRevenueByMonth } from "../_actions/GetRevenueByMonth"
 
 
 export default async function DashboardPage() {
@@ -18,6 +19,17 @@ export default async function DashboardPage() {
   const todaySalesCount = await GetTodaySalesCount();
   const todayRevenue = await GetTodayRevenue();
   const recentSales = await GetTodaySales();
+  const revenuesByMonth = await GetRevenueByMonth();
+
+  const months = [
+  "Jan","Feb","Mar","Apr","May","Jun",
+  "Jul","Aug","Sep","Oct","Nov","Dec"
+]
+
+const formatted = revenuesByMonth.map((item) => ({
+  name: months[item.month - 1],
+  total: Number(item.total)
+}))
 
   const usersCount = users.length;
   const groceriesCount = groceries.length;
@@ -43,7 +55,7 @@ export default async function DashboardPage() {
             <CardDescription>Volume das receitas ao longo do tempo</CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
-            <DashboardChart />
+            <DashboardChart data={formatted} />
           </CardContent>
         </Card>
 
