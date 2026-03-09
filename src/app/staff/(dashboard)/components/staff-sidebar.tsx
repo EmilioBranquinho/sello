@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSidebar } from "../../../../components/sidebar-provider"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Users, Wallet, BarChart3, Settings, HelpCircle, LogOut, Menu, Store } from "lucide-react"
+import { LayoutDashboard, DollarSign, Wallet, Layers , BarChart3, Settings, HelpCircle, LogOut, Menu, Store } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { logoutAction } from "@/app/(auth)/_actions/logoutAction"
 import { SessionProvider, useSession } from "next-auth/react"
@@ -14,7 +14,7 @@ interface SidebarProps {
   role?: string | undefined | null
 }
 
-export function Sidebar({ name, role }: SidebarProps) {
+export function StaffSidebar({ name, role }: SidebarProps) {
   const pathname = usePathname()
   const { isOpen, toggle } = useSidebar()
 
@@ -35,7 +35,7 @@ export function Sidebar({ name, role }: SidebarProps) {
         )}
       >
         <div className="flex h-14 items-center border-b px-4">
-          <span className="text-lg font-semibold">{name}  <br /> <span className="text-muted-foreground text-xs">{role}</span></span>
+          <span className="text-lg font-semibold">{name}  <br /> <span className="text-muted-foreground text-xs">{role === "STAFF" ? "VENDEDOR" : ""}</span></span>
           <Button variant="ghost" size="icon" className="ml-auto lg:hidden" onClick={toggle}>
             <Menu className="h-5 w-5" />
           </Button>
@@ -125,11 +125,9 @@ export function Sidebar({ name, role }: SidebarProps) {
 }
 
 const navItems = [
-  { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { name: "Usuários", href: "/admin/users", icon: Users, badge: "" },
-  { name: "Mercearias", href: "/admin/groceries", icon: Store, badge: "" },
-  // { name: "Transactions", href: "/admin/transactions", icon: Wallet },
-  { name: "Estatísticas", href: "/admin/analytics", icon: BarChart3 },
+  { name: "Dashboard", href: "/staff/dashboard", icon: LayoutDashboard },
+  { name: "Produtos", href: "/staff/products", icon: Layers, badge: "" },
+  { name: "Vendas", href: "/staff/sales", icon: DollarSign, badge: "" }
 ]
 
 const footerItems = [

@@ -3,6 +3,7 @@ export interface GroceryTableUser {
   id: string
   name: string
   role?: { name: string }
+  groceryId: string
 }
 
 export interface GroceryLight {

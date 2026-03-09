@@ -4,6 +4,7 @@ import { useSidebar } from "./sidebar-provider"
 import { Bell, Search, User, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { logoutAction } from "@/app/(auth)/_actions/logoutAction"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,10 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 interface HeaderProps {
-  name: string | null | undefined
+  name: string | null | undefined,
+  role?: string | null | undefined
 }
 
-export function Header() {
+export function Header({ name, role }: HeaderProps) {
   const { toggle } = useSidebar()
 
   return (
@@ -50,16 +52,20 @@ export function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
               <User className="h-4 w-4" />
-              <span className="sr-only">User menu</span>
+              {/* <span className="sr-only">User menu</span> */}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Admin</DropdownMenuLabel>
+            <DropdownMenuLabel>{name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Perfil</DropdownMenuItem>
+            <DropdownMenuItem>Definições</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <form action={logoutAction}>
+              <button>
+                <DropdownMenuItem>Terminar sessão</DropdownMenuItem>
+              </button>
+            </form>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

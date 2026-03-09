@@ -32,6 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role; 
+        token.groceryId = user.groceryId;
       }
       return token;
     },
@@ -42,6 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: string;
           name: string;
         };
+        session.user.groceryId = token.groceryId as string;
       }
       return session;
     }

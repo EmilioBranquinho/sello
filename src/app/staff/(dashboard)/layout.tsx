@@ -1,14 +1,13 @@
 import type React from "react"
-import { Sidebar } from "./components/sidebar"
+import { StaffSidebar } from "./components/staff-sidebar"
 import { Header } from "../../../components/header"
 import { SidebarProvider } from "../../../components/sidebar-provider"
 import { auth } from "../../../../auth"
 import { redirect } from "next/navigation"
-import { getUsers } from "./_actions/GetusersAction"
 import { SessionProvider } from "next-auth/react"
 import { ClientOnly } from "../../../components/client-only"
 
-export default async function DashboardLayout({
+export default async function StaffDashboardLayout({
   children,
 }: {
   children: React.ReactNode
@@ -25,7 +24,7 @@ export default async function DashboardLayout({
   // }
 
   const userName = session?.user.name;
-  // const roleName = session.user.role.name;
+  const userRole = session?.user.role.name;
 
   // const users = await getUsers();
 
@@ -35,10 +34,10 @@ export default async function DashboardLayout({
     <SessionProvider>
     <SidebarProvider>
       <div className="min-h-screen bg-background">
-        <Sidebar  />
+        <StaffSidebar name={userName} role={userRole}/>
         <div className="lg:pl-72">
           <ClientOnly>
-            <Header name={userName}/>
+            <Header name={userName} />
           </ClientOnly>    
           <main className="p-4 md:p-6 lg:p-8">{children}</main>
         </div>

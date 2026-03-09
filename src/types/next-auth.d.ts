@@ -8,6 +8,7 @@ declare module "next-auth" {
         id: string;
         name: string;
       };
+      groceryId: string;
     } & DefaultSession["user"];
   }
 
@@ -16,6 +17,7 @@ declare module "next-auth" {
       id: string;
       name: string;
     };
+    groceryId: string
   }
 }
 
@@ -26,5 +28,6 @@ declare module "next-auth/jwt" {
       id: string;
       name: string;
     };
+    groceryId: string
   }
 }

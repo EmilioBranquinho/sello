@@ -15,7 +15,8 @@ interface User {
     role: {
         id: string,
         name: string
-    }
+    },
+    groceryId: string
 }
 
 export async function findUserByCredentials({ email, password }: UserCredentialsProps): Promise<User | null>{
@@ -46,7 +47,9 @@ export async function findUserByCredentials({ email, password }: UserCredentials
         role: {
             id: user.role.id,
             name: user.role.name
-        }
+        },
+        groceryId: user.groceryId
+
     }
 
     return userData;
