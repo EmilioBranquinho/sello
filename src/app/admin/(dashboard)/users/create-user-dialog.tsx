@@ -172,7 +172,12 @@ export function CreateUserDialog({ roles, groceries }: CreateUserDialogProps) {
             onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button className="bg-green-600 text-white hover:bg-green-700" disabled={isPending} type="submit">{isPending ? <Spinner color="white"/> : "Criar usuário"}</Button>
+            <Button 
+            className="bg-green-600 text-white hover:bg-green-700" 
+            disabled={isPending} 
+            type="submit">
+              {isPending ? <Spinner color="white"/> : "Criar usuário"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

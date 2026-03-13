@@ -8,7 +8,7 @@ import { Product } from "@/types/types"
 import { ProductsTable } from "./products-table"
 
 interface Props {
-  products: Product[]
+  products: Product[],
 }
 
 export function ProductsClient({ products }: Props) {
@@ -38,14 +38,7 @@ export function ProductsClient({ products }: Props) {
           Exportar em PDF 
           <File/>
         </Button>
-        <Button 
-        className="bg-red-600 text-white hover:bg-white hover:text-red-600 cursor-pointer" 
-        variant="outline" 
-        size="sm"
-        >
-          Entrada de estoque
-          <ArrowBigUp/>
-        </Button>
+
       </div>
     </div>
       <ProductsTable

@@ -32,6 +32,7 @@ export interface Product {
     name: string
   }
   minimumStock: number,
+  groceryId: string,
   inStock: number,
   createdAt: Date; 
   updatedAt: Date

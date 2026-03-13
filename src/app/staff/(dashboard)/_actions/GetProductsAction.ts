@@ -2,10 +2,17 @@
 
 import { prisma } from "@/lib/prisma"
 import { Product } from "@/types/types";
+import { auth } from "../../../../../auth";
 
 export async function GetProducts(){
 
+    const session = await auth();
+    const userGroceryId = session?.user.groceryId;
+
     const products: Product[] = await prisma.product.findMany({
+        where: {
+            groceryId: userGroceryId
+        },
         select: {
             id: true,
             name: true,

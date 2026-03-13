@@ -6,6 +6,8 @@ import { CreateProductDialog } from "./create-product-dialog"
 import { GetCategories } from "../_actions/GetCategoriesAction"
 import { GetProducts } from "../_actions/GetProductsAction"
 import { ProductsClient } from "./products-client"
+import { AddStockDialog } from "./add-stock-dialog"
+import { auth } from "../../../../../auth"
 // import { CreateGroceryDialog } from "./create-grocery-dialog"
 // import { GroceriesTable } from "./groceries-table"
 // import { getGroceries } from "../_actions/GetGroceriesActions"
@@ -19,7 +21,11 @@ export const metadata = {
 export default async function Products() {
 
     const categories = await GetCategories();
-    const products = await GetProducts(); 
+    const products = await GetProducts();
+
+    const session = await auth();
+
+    const userGroceryId = session?.user.groceryId;
 
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6">
@@ -28,7 +34,10 @@ export default async function Products() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Produtos</h1>
           <p className="text-muted-foreground">Gerencie todo o seu estoque de produtos.</p>
         </div>
-        <CreateProductDialog  categories={categories}/>
+        <div className="flex gap-4 items-center">
+          <AddStockDialog products={products}/>
+          <CreateProductDialog  categories={categories}/>
+        </div>
       </div>
 
       <Card>
@@ -47,7 +56,9 @@ export default async function Products() {
         </CardHeader> */}
         <CardContent className="p-0 overflow-auto">
           <div className="w-full min-w-[640px]">
-            <ProductsClient products={products} />
+            <ProductsClient 
+            products={products}
+            />
           </div>
         </CardContent>
       </Card>
