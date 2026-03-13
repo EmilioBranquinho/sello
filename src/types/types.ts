@@ -17,3 +17,22 @@ export interface GroceryLight {
   users: GroceryTableUser[]
   products: { id: string; name: string; price: number }[]
 }
+
+export interface Category {
+    id: string,
+    name:string
+}
+
+export interface Product {
+  id: string,
+  name: string,
+  price: number,
+  category: {
+    id: string,
+    name: string
+  }
+  minimumStock: number,
+  inStock: number,
+  createdAt: Date; 
+  updatedAt: Date
+}

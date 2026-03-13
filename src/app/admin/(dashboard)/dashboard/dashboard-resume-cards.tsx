@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../..
 
 interface DashboardResumeProps {
     usersCount: number,
-    groceriesCount: number,
+    groceriesCount?: number,
     todaySalesCount: number,
     todayRevenue: number
 }

@@ -14,20 +14,79 @@ model Role {
 }
 
 model Users {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String     @id @default(uuid())
+  email     String     @unique
   name      String
   password  String
-  status    UserStatus 
+  status    UserStatus
   contact   String
   groceryId String
   roleId    String
-
-  role      Role     @relation(fields: [roleId], references: [id])
-  grocery   Grocery  @relation(fields: [groceryId], references: [id])
+  createdAt DateTime   @default(now())
   sales     Sales[]
+  grocery   Grocery    @relation(fields: [groceryId], references: [id])
+  role      Role       @relation(fields: [roleId], references: [id])
+}
 
+model Grocery {
+  id        String        @id @default(uuid())
+  name      String        @unique
+  location  String
+  contact   String
+  status    GroceryStatus @default(ACTIVE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  products  Product[]
+  sales     Sales[]
+  users     Users[]
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Product {
+  id           String      @id @default(uuid())
+  name         String
+  price        Float
+  minimumStock Int
+  inStock      Int
+
+  groceryId    String
+  categoryId   String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  category     Category    @relation(fields: [categoryId], references: [id])
+  grocery      Grocery     @relation(fields: [groceryId], references: [id])
+  salesItems   SalesItem[]
+}
+
+model Sales {
+  id        String      @id @default(uuid())
+  groceryId String
+  userId    String
+  total     Float
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  grocery   Grocery     @relation(fields: [groceryId], references: [id])
+  user      Users       @relation(fields: [userId], references: [id])
+  items     SalesItem[]
+}
+
+model SalesItem {
+  id        String   @id @default(uuid())
+  saleId    String
+  productId String
+  quantity  Int
+  unitPrice Float
+  subtotal  Float
   createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
+  sale      Sales    @relation(fields: [saleId], references: [id])
 }
 
 enum UserStatus {
@@ -42,81 +101,7 @@ enum RoleName {
   OWNER
 }
 
-
-model Grocery {
-  id        String   @id @default(uuid())
-  name      String @unique
-  location  String
-  contact   String
-  status    GroceryStatus @default(ACTIVE)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  users     Users[]
-  products  Product[]
-  sales     Sales[]
-}
-
 enum GroceryStatus {
   ACTIVE
   INACTIVE
-}
-
-model Category {
-  id        String   @id @default(uuid())
-  name      String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  products  Product[]
-}
-
-model Product {
-  id        String   @id @default(uuid())
-  name      String
-  price     Float
-  description String
-  minimumStock Int
-
-  groceryId String
-  grocery   Grocery @relation(fields: [groceryId], references: [id])
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  salesItems SalesItem[]
-}
-
-model Sales {
-  id        String @id @default(uuid())
-  groceryId String
-  userId    String
-  total     Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  grocery Grocery @relation(fields: [groceryId], references: [id])
-  user Users @relation(fields: [userId], references: [id])
-
-  items   SalesItem[]
-}
-
-model SalesItem {
-  id        String   @id @default(uuid())
-
-  saleId    String
-  productId String
-
-  quantity  Int
-  unitPrice Float   // preço no momento da venda
-  subtotal  Float   // quantity * unitPrice
-
-  sale      Sales   @relation(fields: [saleId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
-
-  createdAt DateTime @default(now())
 }

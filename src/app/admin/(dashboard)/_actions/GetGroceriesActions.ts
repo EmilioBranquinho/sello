@@ -14,7 +14,7 @@ export interface GroceryProps {
         id: string,
         name: string,
         price: number,
-        description: string,
+        inStock: number,
         minimumStock: number,
         groceryId: string,
         createdAt: Date,
@@ -36,9 +36,10 @@ export async function getGroceries() {
             }
         }
     });
-
-    return groceries
+    console.log(groceries)
+    return groceries 
   } catch (error) {
-    throw new Error('Failed to fetch groceries')
+    // throw new Error('Failed to fetch groceries')
+    console.debug(error)
   }
 }

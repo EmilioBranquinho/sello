@@ -32,7 +32,7 @@ const formatted = revenuesByMonth.map((item) => ({
 }))
 
   const usersCount = users.length;
-  const groceriesCount = groceries.length;
+  const groceriesCount = groceries?.length;
 
   return (
     <div className="flex flex-col gap-4">
